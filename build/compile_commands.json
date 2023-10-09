@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/run/media/aylin/4be64b21-b177-4ee0-9356-0c1bf2833443/Учеба/4435/1 семестр/ММ/ЛР2/LR2/build",
+  "command": "/usr/bin/gcc   -g -o CMakeFiles/MM_LR2.dir/main.c.o -c \"/run/media/aylin/4be64b21-b177-4ee0-9356-0c1bf2833443/Учеба/4435/1 семестр/ММ/ЛР2/LR2/main.c\"",
+  "file": "/run/media/aylin/4be64b21-b177-4ee0-9356-0c1bf2833443/Учеба/4435/1 семестр/ММ/ЛР2/LR2/main.c",
+  "output": "CMakeFiles/MM_LR2.dir/main.c.o"
+}
+]

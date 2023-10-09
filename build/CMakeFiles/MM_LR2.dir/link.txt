@@ -1,0 +1,1 @@
+/usr/bin/gcc -g CMakeFiles/MM_LR2.dir/main.c.o -o MM_LR2 
