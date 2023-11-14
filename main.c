@@ -30,6 +30,7 @@ int* min(int** c, int ACount, int BCount) {
     result[0] = minI;
     result[1] = minJ;
     c[minI][minJ] = -1;
+    printf("\nМинимальный с - %i на координатах [%i, %i]\n", min, minI, minJ);
     return result;
 }
 
@@ -139,11 +140,12 @@ int* potentialSearch(int ACount, int BCount, int** c, int** x) {
         }
     }
     int* result = (int*)malloc((ACount + BCount) * sizeof(int));
+    printf("\nU - ");
     for (int i = 0; i < ACount; i++) {
         printf("%i\t", U[i]);
         result[i] = U[i];
     }
-    printf("\n");
+    printf("\nV - ");
     for (int i = ACount, j = 0; i < BCount + ACount, j < BCount; i++, j++) {
         printf("%i\t", V[j]);
         result[i] = V[j];
@@ -162,9 +164,11 @@ int** deltaSearch(int ACount, int BCount, int* U, int* V, int** c, int* isOptima
     for (int i = 0; i < ACount; i++) {
         for (int j = 0; j < BCount; j++) {
             d[i][j] = V[j] - U[i] - c[i][j];
+            printf("d[%i][%i] = %i - %i - %i = %i\n", i, j, V[j], U[i], c[i][j], d[i][j]);
             if (d[i][j] > 0) *isOptimal = 0;
         }
     }
+    printf("\nДельты\n");
     for (int i = 0; i < ACount; i++) {
         for (int j = 0; j < BCount; j++) {
             printf("%i\t", d[i][j]);
@@ -212,6 +216,14 @@ int** optimalSearch(int ACount, int BCount, int* U, int* V, int** c, int** x, in
 
     x[dI][dJ] = minX;
     x[mI][mJ] = 0;
+
+    printf("\nОбновленный X\n");
+    for (int i = 0; i < ACount; i++){
+        for (int j = 0; j < BCount; j++){
+            printf("%i\t", x[i][j]);
+        }
+        printf("\n");
+    }
 
     int* UV = (int*)malloc((ACount + BCount) * sizeof(int));
     UV = potentialSearch(ACount, BCount, c, x);
@@ -283,16 +295,32 @@ int ktz(int ACount, int BCount,
         for (int i = 0; i < BCount; i++) {
             if (B[i] == 0) endBCount++;
         }
+        printf("\nОбновленный с\n");
+        for (int i = 0; i < ACount; i++){
+            for (int j = 0; j < BCount; j++){
+                printf("%i\t", c[i][j]);
+            }
+            printf("\n");
+        }
+        printf("\nОбновленный X\n");
+        for (int i = 0; i < ACount; i++){
+            for (int j = 0; j < BCount; j++){
+                printf("%i\t", x[i][j]);
+            }
+            printf("\n");
+        }
         if (endACount == ACount || endBCount == BCount) {
             break;
         }
     }
+    printf("\nИтоговый с\n");
     for (int i = 0; i < ACount; i++) {
         for (int j = 0; j < BCount; j++) {
             printf("%i\t", c[i][j]);
         }
         printf("\n");
     }
+    printf("\nX\n");
     for (int i = 0; i < ACount; i++) {
         for (int j = 0; j < BCount; j++) {
             printf("%i\t", x[i][j]);
@@ -318,6 +346,7 @@ int ktz(int ACount, int BCount,
     int** d = deltaSearch(ACount, BCount, U, V, cCopy, isOptimal);
 
     while (*isOptimal == 0){
+        printf("\nПлан неоптимален. Перестройка...\n");
         d = optimalSearch(ACount, BCount, U, V, cCopy, x, d, isOptimal);
     }
 
@@ -335,6 +364,25 @@ int main() {
     c[1][0] = 5; c[1][1] = 6; c[1][2] = 5;
     c[2] = (int*)malloc(3 * sizeof(int));
     c[2][0] = 9; c[2][1] = 5; c[2][2] = 3;
+
+    printf("Изначальные А\n");
+    for (int i = 0; i < 3; i++){
+        printf("%i\t", A[i]);
+    }
+
+    printf("\nИзначальные B\n");
+    for (int i = 0; i < 3; i++){
+        printf("%i\t", B[i]);
+    }
+
+    printf("\nИзначальные C\n");
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            printf("%i\t", c[i][j]);
+        }
+        printf("\n");
+    }
+
     ktz(3, 3, A, B, c);
     return 0;
 }
