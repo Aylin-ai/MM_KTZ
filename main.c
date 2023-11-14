@@ -240,6 +240,17 @@ int** optimalSearch(int ACount, int BCount, int* U, int* V, int** c, int** x, in
 
 int ktz(int ACount, int BCount,
     int* A, int* B, int** c) {
+    
+    int aCount, bCount = 0;
+    for (int i = 0, j = 0; i < ACount, j < BCount; i++, j++){
+        aCount += A[i];
+        bCount += B[j];
+    }
+    if (aCount != bCount){
+        printf("Данные для решения задачи неккоректны. Выход из программы...\n");
+        return 0;
+    }
+
     int** cCopy = (int**)malloc(ACount * sizeof(int*));
     for (int i = 0; i < ACount; i++) {
         cCopy[i] = (int*)malloc(BCount * sizeof(int));
