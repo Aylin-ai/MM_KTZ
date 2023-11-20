@@ -248,8 +248,10 @@ int ktz(int ACount, int BCount,
     int* A, int* B, int** c) {
     
     int aCount = 0, bCount = 0;
-    for (int i = 0, j = 0; i < ACount, j < BCount; i++, j++){
+    for (int i = 0; i < ACount; i++){
         aCount += A[i];
+    }
+    for (int j = 0; j < BCount; j++){
         bCount += B[j];
     }
     if (aCount != bCount){
