@@ -123,20 +123,42 @@ int* potentialSearch(int ACount, int BCount, int** c, int** x) {
     }
 
     U[0] = 0;
-    for (int k = 0; k < 2; k++){
+    //for (int k = 0; k < 2; k++){
+    //    for (int i = 0; i < ACount; i++) {
+    //        for (int j = 0; j < BCount; j++) {
+    //            if (V[j] == -999 && U[i] != -999 && x[i][j] != 0) {
+    //                V[j] = c[i][j] + U[i];
+    //                printf("V[%i] = %i + %i = %i\n", j, c[i][j], U[i], V[j]);
+    //                continue;
+    //            }
+    //            else if (U[i] == -999 && V[j] != -999 && x[i][j] != 0) {
+    //                U[i] = V[j] - c[i][j];
+    //                printf("U[%i] = %i - %i = %i\n", i, V[j], c[i][j], U[i]);
+    //                continue;
+    //            }
+    //        }
+    //    }
+    //}
+    while (1) {
+        int updated = 0;
+
         for (int i = 0; i < ACount; i++) {
             for (int j = 0; j < BCount; j++) {
-                if (V[j] == -999 && U[i] != -999 && x[i][j] != 0) {
-                    V[j] = c[i][j] + U[i];
-                    printf("V[%i] = %i + %i = %i\n", j, c[i][j], U[i], V[j]);
-                    continue;
-                }
-                else if (U[i] == -999 && V[j] != -999 && x[i][j] != 0) {
-                    U[i] = V[j] - c[i][j];
-                    printf("U[%i] = %i - %i = %i\n", i, V[j], c[i][j], U[i]);
-                    continue;
+                if (x[i][j] != 0) {
+                    // Если клетка (i, j) входит в план, обновляем потенциалы
+                    if (U[i] != -999 && V[j] == -999) {
+                        V[j] = c[i][j] - U[i];
+                        updated = 1;
+                    } else if (U[i] == -999 && V[j] != -999) {
+                        U[i] = c[i][j] - V[j];
+                        updated = 1;
+                    }
                 }
             }
+        }
+
+        if (!updated) {
+            break; // Если не было обновлений, выходим из цикла
         }
     }
     int* result = (int*)malloc((ACount + BCount) * sizeof(int));
@@ -364,55 +386,36 @@ int ktz(int ACount, int BCount,
 }
 
 int main() {
-    
-    int aCount, bCount;
-    
-    printf("Введите размер А: ");
-    scanf("%i", &aCount);
-    
-    printf("\nВведите размер B: ");
-    scanf("%i", &bCount);
-    
-    int* A = malloc(aCount * sizeof(int));
-    int* B = malloc(bCount * sizeof(int));
-    
-    for (int i = 0; i < aCount; i++){
-        printf("\nВведите А[%i] - ", i);
-        scanf("%i", &A[i]);
-    }
-    
-    for (int i = 0; i < bCount; i++){
-        printf("\nВведите B[%i] - ", i);
-        scanf("%i", &B[i]);
-    }
-    
-    int** c = (int**)malloc(aCount * sizeof(int*));
-    for (int i = 0; i < aCount; i++){
-        c[i] = (int*)malloc(bCount * sizeof(int));
-        for (int j = 0; j < bCount; j++){
-            printf("\nВведите с[%i][%i] - ", i, j);
-            scanf("%i", &c[i][j]);
-        }
-    }
+    int* A = malloc(3 * sizeof(int));
+    A[0] = 360; A[1] = 180; A[2] = 40;
+    int* B = malloc(3 * sizeof(int));
+    B[0] = 220; B[1] = 170; B[2] = 190;
+    int** c = (int**)malloc(3 * sizeof(int*));
+    c[0] = (int*)malloc(3 * sizeof(int));
+    c[0][0] = 4; c[0][1] = 9; c[0][2] = 7;
+    c[1] = (int*)malloc(3 * sizeof(int));
+    c[1][0] = 5; c[1][1] = 6; c[1][2] = 5;
+    c[2] = (int*)malloc(3 * sizeof(int));
+    c[2][0] = 9; c[2][1] = 5; c[2][2] = 3;
 
     printf("Изначальные А\n");
-    for (int i = 0; i < aCount; i++){
+    for (int i = 0; i < 3; i++){
         printf("%i\t", A[i]);
     }
 
     printf("\nИзначальные B\n");
-    for (int i = 0; i < bCount; i++){
+    for (int i = 0; i < 3; i++){
         printf("%i\t", B[i]);
     }
 
     printf("\nИзначальные C\n");
-    for (int i = 0; i < aCount; i++) {
-        for (int j = 0; j < bCount; j++) {
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
             printf("%i\t", c[i][j]);
         }
         printf("\n");
     }
 
-    ktz(aCount, bCount, A, B, c);
+    ktz(3, 3, A, B, c);
     return 0;
 }
